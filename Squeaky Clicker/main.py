@@ -1,6 +1,7 @@
 import pygame
 import random
 import time
+import json
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -12,6 +13,14 @@ center_w = 0
 squeaker_level = 1
 points = 0
 dog_level = 0
+try:
+    with open("./saves/save.json", "r") as f:
+        save = json.load(f)
+        points = save["points"]
+        dog_level = save["dog_level"]
+        squeaker_level = save["squeaky"]
+except FileNotFoundError:
+    pass
 logo_shown = False
 screen.fill((0, 0, 0))
 pygame.display.flip()
@@ -29,6 +38,13 @@ while running:
     screen.fill((255, 255, 255))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            with open("./saves/save.json", "w") as f:
+                data = {
+                    "squeaky": squeaker_level,
+                    "points": points,
+                    "dog_level": dog_level,
+                }
+                json.dump(data, f, indent=4)
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
