@@ -19,14 +19,21 @@ squeaker_level = 1
 points = 0
 dog_level = 0
 #Attempt to load save data
+with open("./config.json", "r") as f:
+    config = json.load(f)
+    #All files in the .507ex-runtime directory are removed when the game is quit. So, all saves need to be saved externally.
+    if config["507ex_mode"]:
+        save_path = config["507ex_save_path"]
+    else:
+        save_path = "./saves/save.json"
 try:
-    with open("./saves/save.json", "r") as f:
+    with open(save_path, "r") as f:
         save = json.load(f)
         points = save["points"]
         dog_level = save["dog_level"]
         squeaker_level = save["squeaky"]
 except FileNotFoundError:
-#If its unable to be loaded, just go with the defualt.
+#If its unable to be loaded, just go with the default.
     pass
 logo_shown = False
 menu_shown = False
@@ -56,12 +63,17 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             if os.path.exists("./saves"):
-                with open("./saves/save.json", "w") as f:
+                if os.path.exists("./507ex-meta.json"):
+                    with open("./507ex-meta.json", "r") as f:
+                        meta = json.load(f)
+                        os.chdir(meta["init_dir"])
+                with open(save_path, "w") as f:
                     data = {
                         "squeaky": squeaker_level,
                         "points": int(points),
                         "dog_level": dog_level,
                     }
+                    print(os.getcwd())
                     json.dump(data, f, indent=4)
             else:
                 try:
