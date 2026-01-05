@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://b73ewtcld6njl"]
+
+[ext_resource type="Script" uid="uid://lgc1l8rcfg7h" path="res://clicker.gd" id="1_lbgm6"]
+[ext_resource type="Texture2D" uid="uid://c681n6ulid2om" path="res://squeaky0.png" id="2_gyk0w"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lbgm6"]
+
+[node name="Clicker" type="Node2D"]
+script = ExtResource("1_lbgm6")
+
+[node name="SqueaksLabel" type="Label" parent="."]
+offset_left = 4.0
+offset_top = 1.0
+offset_right = 52.0
+offset_bottom = 24.0
+scale = Vector2(3.1200013, 3.1200013)
+text = "Squeaks: "
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(322, 333)
+scale = Vector2(-0.68000114, -0.8049004)
+texture = ExtResource("2_gyk0w")
+
+[node name="Area2D" type="Area2D" parent="Sprite2D"]
+scale = Vector2(33.5266, 14.72505)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
+shape = SubResource("CapsuleShape2D_lbgm6")
+
+[node name="DogLevel" type="Label" parent="."]
+offset_left = 1054.0
+offset_right = 1103.0
+offset_bottom = 49.0
+scale = Vector2(1.8799994, 1.8799994)
+text = "Dog: 0"
